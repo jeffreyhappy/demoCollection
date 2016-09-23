@@ -32,13 +32,24 @@
         android:layout_alignStart="@+id/button"
         android:id="@+id/button2" />
 
+    <Button
+        android:text="上传"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button2"
+        android:layout_alignRight="@+id/button2"
+        android:layout_alignEnd="@+id/button2"
+        android:id="@+id/button3" />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:srcCompat="@mipmap/ic_launcher"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="29dp"
         android:id="@+id/imageView"
-        android:layout_below="@+id/button2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/button3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="18dp"
+        android:layout_marginEnd="18dp" />
 </RelativeLayout>
