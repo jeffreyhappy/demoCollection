@@ -42,4 +42,14 @@
         android:layout_alignEnd="@+id/textView2"
         android:layout_marginTop="31dp"
         android:id="@+id/textView3" />
+
+    <Button
+        android:text="实时路况"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_marginTop="29dp"
+        android:id="@+id/button2" />
 </RelativeLayout>

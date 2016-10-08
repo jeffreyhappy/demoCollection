@@ -1,5 +1,6 @@
 package com.jeffrey.demo.bdlocation;
 
+import android.content.Intent;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,locationViewActivity.class));
+            }
+        });
+
         locationModel = new LocationModel(this, new ICallBack<LocationResult>() {
             @Override
             public void onReturnData(LocationResult data) {
@@ -28,12 +36,15 @@ public class MainActivity extends AppCompatActivity {
                 tvResult.setText("city " +data.getCity() + " \n " +
                                     " address " + data.getAddress() + " \n"+
                                     "latlng " + data.getLatLng().toString());
+                locationModel.stopLocation();
             }
 
             @Override
             public void onErrorResponse(Error error) {
                 TextView  tvResult = (TextView) findViewById(R.id.textView3);
                 tvResult.setText(error.getMessage());
+                locationModel.stopLocation();
+
             }
         },false);
     }
