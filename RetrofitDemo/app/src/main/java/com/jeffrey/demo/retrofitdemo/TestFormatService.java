@@ -13,16 +13,16 @@ import rx.Observable;
 
 public interface TestFormatService {
 
-    @POST("/test")
+    @POST("/api/test")
     Observable<MockBean> postSimple();
 
     @FormUrlEncoded
-    @POST("/test")
+    @POST("/api/test")
     Observable<MockBean> postWithParams(@Field("name") String name);
 
 
 
-    @POST("/test")
+    @POST("/api/test")
     Observable<MockBean> postWithObject(@Body MockRequestBean requestBean);
 
 }

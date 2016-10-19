@@ -69,8 +69,7 @@ public class RetrofitImp {
 
                 // Request customization: add request headers
                 Request.Builder requestBuilder = original.newBuilder()
-                        .addHeader("Mf-Head", CustomerHeader())
-                        .addHeader("Cache-Control", "no-store");
+                        .addHeader("Wz-Head", CustomerHeader());
 
                 Request request = requestBuilder.build();
                 return chain.proceed(request);
@@ -78,7 +77,7 @@ public class RetrofitImp {
         });
         if (reqFormateRetrofit == null){
             reqFormateRetrofit = new Retrofit.Builder()
-                    .baseUrl("http://test.api.12123.com")
+                    .baseUrl("http://test.api.12123.com/")
                     .addConverterFactory(FormatRequestConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(httpClient.build())
@@ -93,15 +92,17 @@ public class RetrofitImp {
     private static String CustomerHeader(){
         HashMap<String,String> customHead = new HashMap<>();
         DeviceInfo deviceInfo = DeviceInfo.init(App.getInstance());
-        customHead.put("Mf-Did", deviceInfo.getImei());
-        customHead.put("Mf-Channel", deviceInfo.getChannel());
-        customHead.put("Mf-Model", deviceInfo.getDevice());
-        customHead.put("Mf-Screen", deviceInfo.getScreenWidth()+"*"+ deviceInfo.getScreenHeight());
-        customHead.put("Mf-Version",deviceInfo.getVersion());
-        customHead.put("Mf-Mac", deviceInfo.getMac());
-        customHead.put("Mf-OsVersionCode", String.valueOf(deviceInfo.osVersionCode()));
-        customHead.put("Mf-OsVersionName", deviceInfo.osVersionName());
-        customHead.put("Mf-Brand", Build.BRAND);
+        customHead.put("Wz-Imei", deviceInfo.getImei());
+        customHead.put("Wz-Channel", deviceInfo.getChannel());
+        customHead.put("Wz-Model", deviceInfo.getDevice());
+        customHead.put("Wz-Screen", deviceInfo.getScreenWidth()+"*"+ deviceInfo.getScreenHeight());
+        customHead.put("Wz-Version",deviceInfo.getVersion());
+        customHead.put("Wz-Mac", deviceInfo.getMac());
+        customHead.put("Wz-OsVersionCode", String.valueOf(deviceInfo.osVersionCode()));
+        customHead.put("Wz-OsVersionName", deviceInfo.osVersionName());
+        customHead.put("Wz-Brand", Build.BRAND);
+        customHead.put("Wz-Type", "2");
+        customHead.put("Wz-Sid", "");
 
         JSONObject jsonObject = new JSONObject(customHead);
         String strCustomHead = jsonObject.toString();
