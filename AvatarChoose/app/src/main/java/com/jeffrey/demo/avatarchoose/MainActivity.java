@@ -4,6 +4,7 @@ package com.jeffrey.demo.avatarchoose;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -77,9 +78,10 @@ public class MainActivity extends ChooseActivity implements View.OnClickListener
 
 
     @Override
-    public void onChooseDone(Uri uri) {
-        Glide.with(this).load(uri).into(mIv);
-        choosedUri = uri;
+    public void onChooseDone(Bitmap bitmap) {
+//        Glide.with(this).load(uri).into(mIv);
+//        choosedUri = uri;
+        mIv.setImageBitmap(bitmap);
     }
 
 

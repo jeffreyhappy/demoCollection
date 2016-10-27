@@ -1,5 +1,6 @@
 package com.jeffrey.demo.avatarchoose;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 /**
@@ -7,5 +8,6 @@ import android.net.Uri;
  */
 
 public interface OnChooseListener {
-    void onChooseDone(Uri uri);
+    void onChooseDone(Bitmap bitmap);
+    void toCrop(Uri uri);
 }

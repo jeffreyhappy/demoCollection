@@ -37,7 +37,6 @@ public class CaptureImg {
 
     private   final String TAG = CaptureImg.class.getSimpleName();
 
-    public static final int  REQUEST_CODE_FROM_CAMERA  = 2;
 
     private   final String IMAGE_KEY = "captureImageUri";
     Activity  mActivity;
@@ -57,16 +56,16 @@ public class CaptureImg {
         Intent intent = new Intent();
         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUriFromCamera);
-        mActivity.startActivityForResult(intent, REQUEST_CODE_FROM_CAMERA);
+        mActivity.startActivityForResult(intent, ChooseActivity.REQUEST_CODE_FROM_CAMERA);
     }
 
     public void onResult(int requestCode, int resultCode, Intent resultData){
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_FROM_CAMERA){
+        if (resultCode == Activity.RESULT_OK && requestCode == ChooseActivity.REQUEST_CODE_FROM_CAMERA){
                 if (mChooseListener != null){
                     Log.i(TAG, "url: " + imageUriFromCamera.toString());
                     String filePath = ChooseUtils.getImageAbsolutePath19(mActivity,imageUriFromCamera);
                     Log.i(TAG, "fileActualPath: " + filePath);
-                    mChooseListener.onChooseDone(Uri.parse("file://" + filePath));
+                    mChooseListener.toCrop(Uri.parse("file://" + filePath));
                 }
         }
     }

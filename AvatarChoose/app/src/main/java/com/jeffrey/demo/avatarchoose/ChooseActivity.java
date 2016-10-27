@@ -4,9 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -28,9 +30,21 @@ public abstract class ChooseActivity extends AppCompatActivity implements OnChoo
 
     private int REQUEST_PERMISSION_FOR_LOCAL_CHOOSE = 1;
     private int REQUEST_PERMISSION_FOR_CAMERA_CHOOSE = 2;
+
+    public static final int READ_REQUEST_CODE = 211;
+    public static final int  REQUEST_CODE_FROM_CAMERA  = 311;
+    public static final int REQUEST_CROP    = 311;
+
+
     private ChooseLocalImg mChooseLocalImg;
     private CaptureImg mCaptureImg;
+    private CropAction   mCropAction;
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mCropAction = new CropAction();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -41,8 +55,17 @@ public abstract class ChooseActivity extends AppCompatActivity implements OnChoo
         if (mCaptureImg != null) {
             mCaptureImg.onResult(requestCode, resultCode, data);
         }
+
+        if (resultCode == Activity.RESULT_OK && mCropAction != null){
+            Bitmap bitmap = mCropAction.onResult(requestCode,resultCode,data);
+            onChooseDone(bitmap);
+        }
     }
 
+    @Override
+    public void toCrop(Uri uri) {
+        mCropAction.clipPhoto(this,uri);
+    }
 
     /**
      * 从本地相册选择
