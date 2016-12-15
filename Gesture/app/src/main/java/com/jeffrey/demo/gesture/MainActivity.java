@@ -29,51 +29,6 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         mTouchSlopSquare = touchSlop * touchSlop;
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent ev) {
-////        mGesture.onTouchEvent(ev);
-//
-//        final int action = ev.getAction();
-//        final boolean pointerUp =
-//                (action & MotionEventCompat.ACTION_MASK) == MotionEventCompat.ACTION_POINTER_UP;
-//        final int skipIndex = pointerUp ? MotionEventCompat.getActionIndex(ev) : -1;
-//
-//        // Determine focal point
-//        float sumX = 0, sumY = 0;
-//        final int count = ev.getPointerCount();
-//        for (int i = 0; i < count; i++) {
-//            if (skipIndex == i) continue;
-//            sumX += ev.getX(i);
-//            sumY += ev.getY(i);
-//        }
-//        final int div = pointerUp ? count - 1 : count;
-//        final float focusX = sumX / div;
-//        final float focusY = sumY / div;
-//        Log.d(DEBUG_TAG,"focusX = " + focusX + " focuxY =" + focusY);
-//        switch (action & MotionEventCompat.ACTION_MASK){
-//            case MotionEvent.ACTION_DOWN:
-//                mStartX  = focusX;
-//                mStartY  = focusY;
-//                // Cancel long press and taps
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                final int deltaX = (int) (focusX - mStartX);
-//                final int deltaY = (int) (focusY - mStartY);
-//                int distance = (deltaX * deltaX) + (deltaY * deltaY);
-//                if (distance > mTouchSlopSquare) {
-//                    if (Math.abs(deltaX) > Math.abs(deltaY)){
-//                        Log.d(DEBUG_TAG,"horizontal scroll");
-//
-//                    }else {
-//                        Log.d(DEBUG_TAG,"vertical scroll");
-//
-//                    }
-//                    Log.d(DEBUG_TAG,"start scrollview  deltaX =" + deltaX + " deltaY =" + deltaY);
-//                }
-//                break;
-//        }
-//        return super.onTouchEvent(ev);
-//    }
 
     @Override
     public boolean onDown(MotionEvent e) {
