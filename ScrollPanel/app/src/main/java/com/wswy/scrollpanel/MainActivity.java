@@ -3,6 +3,8 @@ package com.wswy.scrollpanel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -20,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
         ScrollablePanelAdapter scrollablePanelAdapter = new ScrollablePanelAdapter();
         generateTestData(scrollablePanelAdapter);
         scrollablePanel.setPanelAdapter(scrollablePanelAdapter);
+
+        final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(scrollablePanelAdapter);
+        scrollablePanel.recyclerView.addItemDecoration(headersDecor);
+
 
     }
 

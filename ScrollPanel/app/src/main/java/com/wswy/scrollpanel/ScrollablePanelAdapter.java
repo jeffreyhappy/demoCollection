@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
  * Created by kelin on 16-11-18.
  */
 
-public class ScrollablePanelAdapter extends PanelAdapter {
+public class ScrollablePanelAdapter extends PanelAdapter implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     private static final int TITLE_TYPE = 4;
     private static final int ROOM_TYPE = 0;
     private static final int DATE_TYPE = 1;
@@ -94,6 +96,30 @@ public class ScrollablePanelAdapter extends PanelAdapter {
 
     private void setSimpleView(int row,int column,SimpleViewHolder viewHolder){
         viewHolder.tv.setText("row"+ row +" column" + column );
+    }
+
+    @Override
+    public long getHeaderId(int position) {
+//        if (position % 3 == 0){
+//            return -1;
+//        }
+        return position;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        View titleView = LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_title_info,parent,false);
+        return new TitleViewHolder(titleView);
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ((TitleViewHolder)holder).tv.setText(String.valueOf(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return getRowCount();
     }
 //    private void setDateView(int pos, DateViewHolder viewHolder) {
 //        DateInfo dateInfo = dateInfoList.get(pos - 1);
@@ -204,7 +230,14 @@ public class ScrollablePanelAdapter extends PanelAdapter {
             this.tv = (TextView) view.findViewById(R.id.tv);
         }
     }
+    private static class TitleViewHolder extends  RecyclerView.ViewHolder{
+        public TextView tv;
 
+        public TitleViewHolder(View view) {
+            super(view);
+            this.tv = (TextView) view.findViewById(R.id.tv);
+        }
+    }
     public void setRowList(ArrayList<String> rowList) {
         this.rowList = rowList;
     }
