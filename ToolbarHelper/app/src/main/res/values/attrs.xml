@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CommonToolbar">
+        <attr name="showDefaultBack" format="boolean"/>
+        <attr name="leftText" format="string"/>
+        <attr name="leftTextSize" format="dimension"/>
+        <attr name="leftTextColor" format="color"/>
+
+        <attr name="title" format="string"/>
+        <attr name="titleSize" format="dimension"/>
+        <attr name="titleColor" format="color"/>
+
+
+        <attr name="menuTextSize" format="dimension"/>
+        <attr name="menuTextColor" format="color"/>
+    </declare-styleable>
+</resources>
