@@ -1,4 +1,4 @@
-package com.jeffrey.toolbarhelper;
+package com.jeffrey.commontoolbar;
 
 import android.app.Activity;
 import android.content.Context;
@@ -52,6 +52,7 @@ public class CommonToolbar extends RelativeLayout implements OnMenuClickListener
     private final int     defaultLeftTextSize = 14;//sp
     private final int     defaultMenuTextSize = 14;//sp
     private int     defaultBackImg = R.drawable.ic_arrow_back_white_24dp;
+    private AttributeSet attrs;
 
     private View.OnClickListener  onLeftClickListener = new OnClickListener() {
         @Override
@@ -95,6 +96,8 @@ public class CommonToolbar extends RelativeLayout implements OnMenuClickListener
     }
 
     private void init(AttributeSet attrs){
+        this.attrs = attrs;
+
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs,R.styleable.CommonToolbar);
         leftText = typedArray.getString(R.styleable.CommonToolbar_leftText);
         leftTextColor = typedArray.getColor(R.styleable.CommonToolbar_leftTextColor,Color.WHITE);
@@ -117,7 +120,7 @@ public class CommonToolbar extends RelativeLayout implements OnMenuClickListener
             lp.addRule(RelativeLayout.ALIGN_LEFT);
             rlLeft.setLayoutParams(lp);
 
-            final TypedArray a = getContext().obtainStyledAttributes(R.style.AppTheme, new int[] {R.attr.selectableItemBackground});
+            final TypedArray a = getContext().obtainStyledAttributes(attrs, new int[] {R.attr.selectableItemBackground});
             int attributeResourceId = a.getResourceId(0, 0);
             Drawable drawable = ActivityCompat.getDrawable(getContext(),attributeResourceId);
             rlLeft.setBackground(drawable);
@@ -183,10 +186,13 @@ public class CommonToolbar extends RelativeLayout implements OnMenuClickListener
             tvTitle = tv;
             tvTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX,titleSize);
             tvTitle.setTextColor(titleColor);
-            tvTitle.setText(title);
-        }else {
-            tvTitle.setText(text);
         }
+        if (!TextUtils.isEmpty(text)){
+            tvTitle.setText(text);
+        }else {
+            tvTitle.setText("");
+        }
+        title = text;
     }
 
     private void setShowBackImg(Drawable leftDrawable){
@@ -228,36 +234,46 @@ public class CommonToolbar extends RelativeLayout implements OnMenuClickListener
 
 
     private void setMenu(RightMenu menu,LinearLayout parent){
-        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,55,getResources().getDisplayMetrics());
-        TypedArray a = getContext().obtainStyledAttributes(R.style.AppTheme, new int[] {R.attr.selectableItemBackground});
+//        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,55,getResources().getDisplayMetrics());
+        int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,10,getResources().getDisplayMetrics());
+        TypedArray a = getContext().obtainStyledAttributes(attrs, new int[] {R.attr.selectableItemBackground});
         int attributeResourceId = a.getResourceId(0, 0);
         Drawable drawable = ActivityCompat.getDrawable(getContext(),attributeResourceId);
-        if (!TextUtils.isEmpty(menu.getText())){
-            TextView tv = new TextView(this.getContext());
-            RelativeLayout.LayoutParams  lp = new RelativeLayout.LayoutParams(width, LayoutParams.MATCH_PARENT);
+        if (menu instanceof TextRightMenu){
+            TextView tv = (TextView) menu.getView(getContext());
+            RelativeLayout.LayoutParams  lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
             lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+            tv.setPadding(padding,0,padding,0);
             tv.setLayoutParams(lp);
             tv.setGravity(Gravity.CENTER);
             tv.setBackground(drawable);
-            tv.setText(menu.getText());
             tv.setTextColor(menuTextColor);
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,menuTextSize);
             parent.addView(tv);
             tv.setOnClickListener(new MenuClick(menu.getId(),this));
-        }else if (menu.getDrawableId() > 0){
+        }else if (menu instanceof ImageRightMenu){
             RelativeLayout relativeImage = new RelativeLayout(getContext());
-            RelativeLayout.LayoutParams  relativeLP = new RelativeLayout.LayoutParams(width, LayoutParams.MATCH_PARENT);
+            RelativeLayout.LayoutParams  relativeLP = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
             relativeImage.setLayoutParams(relativeLP);
+            relativeImage.setPadding(padding,0,padding,0);
             parent.addView(relativeImage);
-
-            ImageView iv = new ImageView(this.getContext());
+            ImageView iv = (ImageView) menu.getView(getContext());
             RelativeLayout.LayoutParams  lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             lp.addRule(RelativeLayout.CENTER_IN_PARENT);
             iv.setLayoutParams(lp);
-            iv.setImageDrawable(ActivityCompat.getDrawable(getContext(),menu.getDrawableId()));
             relativeImage.addView(iv);
             relativeImage.setOnClickListener(new MenuClick(menu.getId(),this));
-
+        }else {
+            RelativeLayout relative = new RelativeLayout(getContext());
+            RelativeLayout.LayoutParams  relativeLP = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+            relative.setLayoutParams(relativeLP);
+            relative.setPadding(padding,0,padding,0);
+            parent.addView(relative);
+            View menuView = menu.getView(getContext());
+            RelativeLayout.LayoutParams  lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+            lp.addRule(RelativeLayout.CENTER_IN_PARENT);
+            menuView.setLayoutParams(lp);
+            relative.addView(menuView);
         }
         a.recycle();
     }
@@ -281,19 +297,42 @@ public class CommonToolbar extends RelativeLayout implements OnMenuClickListener
         }
     }
 
-    public static class RightMenu{
+    public static class TextRightMenu implements RightMenu{
         private int   id;
         private String text;
         private int    drawableId;
 
-        public RightMenu(int id,String text, int drawableId) {
+        public TextRightMenu(int id,String text) {
             this.id = id;
             this.text = text;
-            this.drawableId = drawableId;
         }
 
         public String getText() {
             return text;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        @Override
+        public View getView(Context context) {
+            TextView tv = new TextView(context);
+            if(!TextUtils.isEmpty(text)){
+                tv.setText(text);
+            }
+
+            return tv;
+        }
+    }
+
+    public static class ImageRightMenu implements RightMenu{
+        private int   id;
+        private int    drawableId;
+
+        public ImageRightMenu(int id,int drawableId) {
+            this.id = id;
+            this.drawableId = drawableId;
         }
 
         public int getDrawableId() {
@@ -303,6 +342,21 @@ public class CommonToolbar extends RelativeLayout implements OnMenuClickListener
         public int getId() {
             return id;
         }
+
+        @Override
+        public View getView(Context context) {
+            ImageView iv = new ImageView(context);
+            if(drawableId > 0 ){
+                iv.setImageDrawable(ActivityCompat.getDrawable(context,getDrawableId()));
+            }
+
+            return iv;
+        }
+    }
+
+    public interface RightMenu{
+         View getView(Context context);
+         int  getId();
     }
 
     public class MenuClick implements View.OnClickListener{

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ToolbarHelper.iml" filepath="$PROJECT_DIR$/ToolbarHelper.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commontoolbar/commontoolbar.iml" filepath="$PROJECT_DIR$/commontoolbar/commontoolbar.iml" />
     </modules>
   </component>
 </project>

@@ -8,14 +8,14 @@
     android:orientation="vertical"
     tools:context="com.jeffrey.toolbarhelper.MainActivity">
     <include layout="@layout/toolbar_system"/>
-    <com.jeffrey.toolbarhelper.CommonToolbar
+    <com.jeffrey.commontoolbar.CommonToolbar
         app:title="标题"
         app:showDefaultBack="true"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
 
-    <com.jeffrey.toolbarhelper.CommonToolbar
+    <com.jeffrey.commontoolbar.CommonToolbar
         android:id="@+id/have_custom_left"
         app:title="@string/app_name"
         android:layout_marginTop="10dp"
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
 
-    <com.jeffrey.toolbarhelper.CommonToolbar
+    <com.jeffrey.commontoolbar.CommonToolbar
         android:id="@+id/have_menu"
         app:title="@string/app_name"
         android:layout_marginTop="10dp"
