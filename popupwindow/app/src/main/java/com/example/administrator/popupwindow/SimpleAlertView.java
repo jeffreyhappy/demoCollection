@@ -27,40 +27,32 @@ import java.util.ArrayList;
  * 精仿iOSAlertViewController控件
  * 点击取消按钮返回 －1，其他按钮从0开始算
  */
-public class SimpleAlertView {
-    public enum Style{
-        ActionSheet,
-        Alert
-    }
+public   class SimpleAlertView  implements  AlertViewContentInterface{
+
     private final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM
     );
-    public static final int HORIZONTAL_BUTTONS_MAXCOUNT = 2;
-    public static final int CANCELPOSITION = -1;//点击取消按钮返回 －1，其他按钮从0开始算
-
-
-    private String cancel;
-    private ArrayList<String> mDatas = new ArrayList<String>();
 
     protected WeakReference<Context> contextWeak;
     private ViewGroup contentContainer;
     private ViewGroup decorView;//fragment的根View
     private ViewGroup rootView;//AlertView 的 根View
+
     private DialogFragment dialogFragment;//所依附的dialogfragment
-    private Style style = Style.Alert;
 
     private boolean isShowing;
 
     private Animation outAnim;
     private Animation inAnim;
     private int gravity = Gravity.CENTER;
+    private AlertViewContentInterface contentInterface;
 
 
-
-    public SimpleAlertView(DialogFragment dialogFragment , Context context, ViewGroup container){
+    public SimpleAlertView(DialogFragment dialogFragment , Context context, ViewGroup container,AlertViewContentInterface contentInterface){
         this.contextWeak = new WeakReference<>(context);
         this.decorView = container;
         this.dialogFragment = dialogFragment;
+        this.contentInterface = contentInterface;
         initViews();
         init();
         initEvents();
@@ -71,7 +63,6 @@ public class SimpleAlertView {
         Context context = contextWeak.get();
         if(context == null) return;
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-//        decorView = (ViewGroup) ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content);
         rootView = (ViewGroup) layoutInflater.inflate(R.layout.layout_popup_view, decorView, false);
         rootView.setLayoutParams(new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
@@ -85,12 +76,22 @@ public class SimpleAlertView {
 
     }
 
-    public int getContentLayoutId(){
-        return R.layout.layout_child_view;
+    /**
+     * 内容的布局id
+     * @return
+     */
+    public  int getContentLayoutId(){
+        return contentInterface.getContentLayoutId();
     }
 
-    public void bindContent(ViewGroup viewGroup){
 
+
+    /**
+     * 内容的布局填充
+     * @return
+     */
+    public  void bindContent(ViewGroup viewGroup){
+        contentInterface.bindContent(viewGroup);
     }
 
     protected void initActionSheetViews(LayoutInflater layoutInflater) {
@@ -144,12 +145,14 @@ public class SimpleAlertView {
         contentContainer.startAnimation(outAnim);
     }
 
+    public void dismiss(Animation.AnimationListener outAnimListener) {
+        //消失动画
+        outAnim.setAnimationListener(outAnimListener);
+        contentContainer.startAnimation(outAnim);
+    }
+
     public void dismissImmediately() {
-//        decorView.removeView(rootView);
-//        isShowing = false;
-
         dialogFragment.dismissAllowingStateLoss();
-
     }
 
     public Animation getInAnimation() {
@@ -168,23 +171,7 @@ public class SimpleAlertView {
         return AnimationUtils.loadAnimation(context, res);
     }
 
-//    public SimpleAlertView setOnDismissListener(OnDismissListener onDismissListener) {
-//        this.onDismissListener = onDismissListener;
-//        return this;
-//    }
 
-//    class OnTextClickListener implements View.OnClickListener{
-//
-//        private int position;
-//        public OnTextClickListener(int position){
-//            this.position = position;
-//        }
-//        @Override
-//        public void onClick(View view) {
-//            if(onItemClickListener != null)onItemClickListener.onItemClick(this,position);
-//            dismiss();
-//        }
-//    }
     private Animation.AnimationListener outAnimListener = new Animation.AnimationListener() {
         @Override
         public void onAnimationStart(Animation animation) {
@@ -193,7 +180,6 @@ public class SimpleAlertView {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-//            dismissImmediately();
             dialogFragment.dismiss();
         }
 
@@ -203,17 +189,7 @@ public class SimpleAlertView {
         }
     };
 
-    /**
-     * 主要用于拓展View的时候有输入框，键盘弹出则设置MarginBottom往上顶，避免输入法挡住界面
-     */
-//    public void setMarginBottom(int marginBottom){
-//        Context context = contextWeak.get();
-//        if(context == null) return;
-//
-//        int margin_alert_left_right = context.getResources().getDimensionPixelSize(com.bigkoo.alertview.R.dimen.margin_alert_left_right);
-//        params.setMargins(margin_alert_left_right,0,margin_alert_left_right,marginBottom);
-//        contentContainer.setLayoutParams(params);
-//    }
+
     public SimpleAlertView setCancelable(boolean isCancelable) {
         View view = rootView.findViewById(R.id.outmost_container);
 

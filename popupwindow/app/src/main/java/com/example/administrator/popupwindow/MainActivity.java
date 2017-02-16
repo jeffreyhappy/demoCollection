@@ -19,12 +19,27 @@ public class MainActivity extends AppCompatActivity {
                 showDialog();
             }
         });
+
+        findViewById(R.id.btn2).setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                showDialogNoCancel();
+            }
+        });
     }
 
 
     private void showDialog(){
-        PopupDialog popupDialog = new PopupDialog();
-        popupDialog.show(getSupportFragmentManager(),"popupDialog");
-        popupDialog.setCancelable(true);
+        ShareDialog shareDialog = new ShareDialog();
+        shareDialog.show(getSupportFragmentManager(),"popupDialog");
+        shareDialog.setCancelable(true);
+    }
+
+
+    private void showDialogNoCancel(){
+        ShareDialog shareDialog = new ShareDialog();
+        shareDialog.show(getSupportFragmentManager(),"popupDialog");
+        shareDialog.setCancelable(false);
     }
 }

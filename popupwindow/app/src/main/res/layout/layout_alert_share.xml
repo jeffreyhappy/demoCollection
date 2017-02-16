@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:background="@android:color/white"
+        android:layout_weight="1.0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_wechat"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:drawablePadding="4dp"
+            android:text="微信"
+            android:textSize="@dimen/font_five"
+            android:textColor="@android:color/black"
+            android:drawableTop="@drawable/icon_wechat"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_wechat_friend"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:drawablePadding="4dp"
+            android:text="朋友圈"
+            android:textSize="@dimen/font_five"
+            android:textColor="@android:color/black"
+            android:drawableTop="@drawable/icon_wechat_friend"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_qq"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:drawablePadding="4dp"
+            android:text="QQ"
+            android:textSize="@dimen/font_five"
+            android:textColor="@android:color/black"
+            android:drawableTop="@drawable/icon_q"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_qq_zone"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:drawablePadding="4dp"
+            android:text="QQ空间"
+            android:textSize="@dimen/font_five"
+            android:textColor="@android:color/black"
+            android:drawableTop="@drawable/icon_zone"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
