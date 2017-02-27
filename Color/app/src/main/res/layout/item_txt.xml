@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:textSize="20sp"
+    android:layout_marginTop="10dp"
+    android:text="我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字我是文字"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
