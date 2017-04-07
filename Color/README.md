@@ -1,3 +1,5 @@
+###### 添加了自定义divider的实现
+
 有时候标题栏会浮在内容之上，而内容会有颜色的变化，这时候就要求标题栏能够变化透明度，标题栏中的图片能够变化颜色。看下效果，如下图：
 
 ![video.mp4_1488200822.gif](https://github.com/jeffreyhappy/demoCollection/blob/master/Color/video.mp4_1488200822.gif)
@@ -152,3 +154,6 @@ ColorFilter是对Drawable设置一个色彩过滤器。这是一个抽象类不�
 我们需要保持原来图片的形状，而切换图片的颜色，选择PorterDuff.Mode.SRC_IN就可以了，如果理解不了，自己按照图片多跑几个模式就知道了。
 
 最后将colorFilter应用到对应的drawable上.图片颜色的变换就完成啦
+
+
+
