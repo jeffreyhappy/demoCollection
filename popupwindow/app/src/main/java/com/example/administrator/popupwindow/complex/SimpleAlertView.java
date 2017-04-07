@@ -1,14 +1,12 @@
-package com.example.administrator.popupwindow;
+package com.example.administrator.popupwindow.complex;
 
 /**
  * Created by Li on 2017/1/3.
  */
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,8 +16,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
 
+import com.example.administrator.popupwindow.R;
+
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
 /**
  * 只支持在底部弹出,还有个坑，返回键要自己处理

@@ -1,6 +1,8 @@
-package com.example.administrator.popupwindow;
+package com.example.administrator.popupwindow.complex;
 
 import android.view.ViewGroup;
+
+import com.example.administrator.popupwindow.R;
 
 /**
  * Created by Li on 2017/2/16.
