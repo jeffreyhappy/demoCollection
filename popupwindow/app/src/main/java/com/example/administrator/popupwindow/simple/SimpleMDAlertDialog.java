@@ -6,11 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.popupwindow.R;
@@ -20,12 +15,12 @@ import com.example.administrator.popupwindow.R;
  * Created by Li on 2017/3/6.
  */
 
-public class SimpleAlertDialog extends DialogFragment {
+public class SimpleMDAlertDialog extends DialogFragment {
 
 
 
     public static DialogFragment getInstance(String title,String msg){
-        SimpleAlertDialog simpleAlertDialog = new SimpleAlertDialog();
+        SimpleMDAlertDialog simpleAlertDialog = new SimpleMDAlertDialog();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("msg", msg);
@@ -40,7 +35,7 @@ public class SimpleAlertDialog extends DialogFragment {
         String title = getArguments().getString("title");
         String msg   = getArguments().getString("msg");
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), 0);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.Theme_AppCompat_Dialog);
         builder.setTitle(title)
                 .setMessage(msg)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -11,27 +12,44 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.wswy.chechengwang.R;
+import com.example.administrator.popupwindow.R;
+
 
 /**
  * Created by Li on 2017/3/6.
  */
 
-public class CommonAlertDialog extends DialogFragment {
+public class SimpleCustomerAlertDialog extends DialogFragment {
 
+
+
+    public static DialogFragment getInstance(String msg,String ok,String cancel){
+        SimpleCustomerAlertDialog simpleAlertDialog = new SimpleCustomerAlertDialog();
+        Bundle args = new Bundle();
+        args.putString("msg", msg);
+        args.putString("ok",ok);
+        args.putString("cancel",cancel);
+        simpleAlertDialog.setArguments(args);
+        return simpleAlertDialog;
+    }
 
 
     private DialogInterface.OnClickListener mCancelClickListener;
     private DialogInterface.OnClickListener mOkClickListener;
 
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(STYLE_NO_FRAME, 0);
+    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), 0);
-        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_common,null);
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.layout_custom_simple_dialog,null);
         builder.setView(contentView);
         TextView tvMsg   = (TextView) contentView.findViewById(R.id.tv_msg);
         Button btnOk   = (Button) contentView.findViewById(R.id.btn_ok);
@@ -70,7 +88,6 @@ public class CommonAlertDialog extends DialogFragment {
                 mOkClickListener.onClick(getDialog(),v.getId());
             }
         });
-
         return builder.create();
     }
 
@@ -82,55 +99,6 @@ public class CommonAlertDialog extends DialogFragment {
     public void setOkClickListener(DialogInterface.OnClickListener mOkClickListener) {
         this.mOkClickListener = mOkClickListener;
     }
-
-    public static class Builder{
-        private String msg ;
-        private String cancel ;
-        private String ok ;
-        private DialogInterface.OnClickListener mCancelClickListener;
-        private DialogInterface.OnClickListener mOkClickListener;
-
-        public Builder setMsg(String msg) {
-            this.msg = msg;
-            return this;
-        }
-
-        public Builder setOk(String ok) {
-            this.ok = ok;
-            return this;
-        }
-
-        public Builder setCancel(String cancel) {
-            this.cancel = cancel;
-            return this;
-        }
-
-
-        public Builder setCancelListener(DialogInterface.OnClickListener mCancelClickListener) {
-            this.mCancelClickListener = mCancelClickListener;
-            return this;
-        }
-
-        public Builder setOkListener(DialogInterface.OnClickListener mOkClickListener) {
-            this.mOkClickListener = mOkClickListener;
-            return this;
-        }
-
-
-        public CommonAlertDialog create(){
-            CommonAlertDialog commonAlertDialog = new CommonAlertDialog();
-            Bundle bundle  = new Bundle();
-            bundle.putString("msg",msg);
-            bundle.putString("ok",ok);
-            bundle.putString("cancel",cancel);
-            commonAlertDialog.setArguments(bundle);
-
-            commonAlertDialog.setOkClickListener(mOkClickListener);
-            commonAlertDialog.setCancelClickListener(mCancelClickListener);
-            return commonAlertDialog;
-        }
-    }
-
 
 
 
