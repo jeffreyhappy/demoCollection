@@ -5,6 +5,7 @@ package com.example.administrator.popupwindow.complex;
  */
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,15 +26,17 @@ import java.lang.ref.WeakReference;
  * Created by Sai on 15/8/9.
  * 精仿iOSAlertViewController控件
  * 点击取消按钮返回 －1，其他按钮从0开始算
+ *
+ * update 现在支持顶部，底部弹出 2017/4/10
  */
-public   class SimpleAlertView  implements  AlertViewContentInterface{
+public class BottomTopView {
 
     private final FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM
     );
 
     protected WeakReference<Context> contextWeak;
-    private ViewGroup contentContainer;
+    private FrameLayout contentContainer;
     private ViewGroup decorView;//fragment的根View
     private ViewGroup rootView;//AlertView 的 根View
 
@@ -44,58 +47,48 @@ public   class SimpleAlertView  implements  AlertViewContentInterface{
     private Animation outAnim;
     private Animation inAnim;
     private int gravity = Gravity.CENTER;
-    private AlertViewContentInterface contentInterface;
+    private BottomTopViewInterface contentInterface;
 
 
-    public SimpleAlertView(DialogFragment dialogFragment , Context context, ViewGroup container,AlertViewContentInterface contentInterface){
+    public BottomTopView(DialogFragment dialogFragment, Context context, ViewGroup container, BottomTopViewInterface contentInterface) {
         this.contextWeak = new WeakReference<>(context);
         this.decorView = container;
         this.dialogFragment = dialogFragment;
         this.contentInterface = contentInterface;
+        this.gravity = contentInterface.getGravity();
+
         initViews();
         init();
         initEvents();
+
     }
 
 
-    protected void initViews(){
+
+    protected void initViews() {
         Context context = contextWeak.get();
-        if(context == null) return;
+        if (context == null) return;
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         rootView = (ViewGroup) layoutInflater.inflate(R.layout.layout_popup_view, decorView, false);
         rootView.setLayoutParams(new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
         ));
-        contentContainer = (ViewGroup) rootView.findViewById(R.id.content_container);
-                params.gravity = Gravity.BOTTOM;
-                contentContainer.setLayoutParams(params);
-                gravity = Gravity.BOTTOM;
-                initActionSheetViews(layoutInflater);
+        contentContainer = (FrameLayout) rootView.findViewById(R.id.content_container);
+
+        initActionSheetViews(layoutInflater);
 
 
     }
 
-    /**
-     * 内容的布局id
-     * @return
-     */
-    public  int getContentLayoutId(){
-        return contentInterface.getContentLayoutId();
-    }
-
-
-
-    /**
-     * 内容的布局填充
-     * @return
-     */
-    public  void bindContent(ViewGroup viewGroup){
-        contentInterface.bindContent(viewGroup);
-    }
 
     protected void initActionSheetViews(LayoutInflater layoutInflater) {
-        ViewGroup viewGroup = (ViewGroup) layoutInflater.inflate(getContentLayoutId(),contentContainer);
-        bindContent(viewGroup);
+        if (contentInterface == null){
+            return;
+        }
+        ViewGroup viewGroup = (ViewGroup) layoutInflater.inflate(contentInterface.getContentLayoutId(), contentContainer);
+        params.gravity = contentInterface.getGravity();
+        viewGroup.setLayoutParams(params);
+        contentInterface.bindContent(viewGroup);
 
     }
 
@@ -103,13 +96,15 @@ public   class SimpleAlertView  implements  AlertViewContentInterface{
         inAnim = getInAnimation();
         outAnim = getOutAnimation();
     }
+
     protected void initEvents() {
     }
 
 
-    public View getView(){
+    public View getView() {
         return rootView;
     }
+
     /**
      * show的时候调用
      *
@@ -117,9 +112,9 @@ public   class SimpleAlertView  implements  AlertViewContentInterface{
      */
     private void onAttached(View view) {
         isShowing = true;
-//        decorView.addView(view);
         contentContainer.startAnimation(inAnim);
     }
+
     /**
      * 添加这个View到Activity的根视图
      */
@@ -129,6 +124,38 @@ public   class SimpleAlertView  implements  AlertViewContentInterface{
         }
         onAttached(rootView);
     }
+
+
+
+    /**
+     * 添加这个View到Activity的根视图
+     */
+    public void showBelow(View view) {
+        if (isShowing()) {
+            return;
+        }
+
+        int[] viewLocation = new int[2];
+        view.getLocationOnScreen(viewLocation);
+
+
+        /**
+         * decorVieLocation的y就是状态栏的高度，getLocationOnScreen是算状态栏的，但是margin是不算状态栏的，所以要加上
+         */
+        showBelow(viewLocation[1]+view.getHeight()-getStatusBarHeight(view.getContext()));
+
+
+    }
+
+    public void showBelow(int offsetY) {
+        if (isShowing()) {
+            return;
+        }
+        rootView.setPadding(0,offsetY,0,0);
+
+        onAttached(rootView);
+    }
+
     /**
      * 检测该View是不是已经添加到根视图
      *
@@ -156,7 +183,7 @@ public   class SimpleAlertView  implements  AlertViewContentInterface{
 
     public Animation getInAnimation() {
         Context context = contextWeak.get();
-        if(context == null) return null;
+        if (context == null) return null;
 
         int res = getAnimationResource(this.gravity, true);
         return AnimationUtils.loadAnimation(context, res);
@@ -164,12 +191,18 @@ public   class SimpleAlertView  implements  AlertViewContentInterface{
 
     public Animation getOutAnimation() {
         Context context = contextWeak.get();
-        if(context == null) return null;
+        if (context == null) return null;
 
         int res = getAnimationResource(this.gravity, false);
         return AnimationUtils.loadAnimation(context, res);
     }
 
+
+    private  int getStatusBarHeight(Context context) {
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        return resources.getDimensionPixelSize(resourceId);
+    }
 
     private Animation.AnimationListener outAnimListener = new Animation.AnimationListener() {
         @Override
@@ -189,13 +222,12 @@ public   class SimpleAlertView  implements  AlertViewContentInterface{
     };
 
 
-    public SimpleAlertView setCancelable(boolean isCancelable) {
+    public BottomTopView setCancelable(boolean isCancelable) {
         View view = rootView.findViewById(R.id.outmost_container);
 
         if (isCancelable) {
             view.setOnTouchListener(onCancelableTouchListener);
-        }
-        else{
+        } else {
             view.setOnTouchListener(null);
         }
         return this;
@@ -216,11 +248,11 @@ public   class SimpleAlertView  implements  AlertViewContentInterface{
     };
 
 
-
     static int getAnimationResource(int gravity, boolean isInAnimation) {
         switch (gravity) {
             case Gravity.BOTTOM:
-                return isInAnimation ? R.anim.slide_in_bottom :R.anim.slide_out_bottom;
+                return isInAnimation ? R.anim.slide_in_bottom : R.anim.slide_out_bottom;
+            case Gravity.TOP:
             case Gravity.CENTER:
                 return isInAnimation ? R.anim.fade_in_center : R.anim.fade_out_center;
         }

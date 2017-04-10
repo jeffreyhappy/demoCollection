@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.administrator.popupwindow.complex.FilterDialog;
 import com.example.administrator.popupwindow.complex.ShareDialog;
 import com.example.administrator.popupwindow.simple.SimpleAlertDialog;
 import com.example.administrator.popupwindow.simple.SimpleCustomerAlertDialog;
@@ -43,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn2:
                 showDialogNoCancel();
                 break;
+
+            case R.id.btn22:
+                showFilterTop();
+                break;
             case R.id.btn3:
                 showDialogFragment();
                 break;
@@ -69,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
         ShareDialog shareDialog = new ShareDialog();
         shareDialog.show(getSupportFragmentManager(),"popupDialog");
         shareDialog.setCancelable(false);
+    }
+
+    private void showFilterTop(){
+        FilterDialog filterDialog = new FilterDialog();
+        filterDialog.show(getSupportFragmentManager(),"filterDialog",findViewById(R.id.btn22));
+        filterDialog.setCancelable(true);
     }
 
     private void showDialogFragment(){

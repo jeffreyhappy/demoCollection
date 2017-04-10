@@ -24,6 +24,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="分享对话框-不可取消" />
+
+    <Button
+        android:id="@+id/btn22"
+        android:onClick="click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="筛选对话框-顶部显示" />
     <Button
         android:id="@+id/btn3"
         android:onClick="click"

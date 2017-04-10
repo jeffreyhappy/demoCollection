@@ -6,6 +6,17 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="buttonStyle">@style/ButtonStyle</item>-->
+        <!--Button按钮正常状态颜色-->
+        <item name="colorButtonNormal">@color/accent_material_light</item>
+        <item name="colorControlHighlight">@android:color/holo_red_dark</item>
+
     </style>
 
+
+    <!--<style name="ButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless">-->
+        <!--&lt;!&ndash;<item name="android:background">@drawable/comm_button_style</item>&ndash;&gt;-->
+        <!--<item name="colorControlHighlight">@android:color/holo_red_dark</item>-->
+        <!--<item name="colorButtonNormal">@drawable/selector_btn_blue</item>-->
+    <!--</style>-->
 </resources>
