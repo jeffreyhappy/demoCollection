@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TabIndicator">
+        <attr name="posIndicatorColor" format="color" />
+        <attr name="posIndicatorHeight" format="dimension" />
+        <attr name="posIndicatorShow" format="boolean" />
+    </declare-styleable>
+</resources>
