@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.fei.nestscrolldemo.MyNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nsv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fei.nestscrolldemo.MainActivity">
+    <LinearLayout
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/top_1"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:text="等下我要划上去\n 假装是个banner"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:background="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/top_2"
+            android:text="我会划到顶部，固定住\n 假装是个横向类型栏目"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:background="@color/colorPrimary"
+            android:layout_height="200dp"
+            android:layout_width="match_parent"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"/>
+    </LinearLayout>
+
+
+
+</com.fei.nestscrolldemo.MyNestedScrollView >
