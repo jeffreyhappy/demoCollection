@@ -1,4 +1,5 @@
-![截图](https://github.com/jeffreyhappy/demoCollection/blob/master/NestScrollDemo/ScreenRecord.giff)
+![截图](https://github.com/jeffreyhappy/demoCollection/blob/master/NestScrollDemo/ScreenRecord.gif)  
+
 ## 使用NestedScrollView优化嵌套RecyclerView
 在开发中经常会遇到ScrollView嵌套RecyclerView的情况。
 例如界面需要一个banner，一段介绍文字，还有个列表，banner要可以划出界面，介绍文字要滑动后固定在顶部
