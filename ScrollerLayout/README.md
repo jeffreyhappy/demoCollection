@@ -7,7 +7,7 @@
 1.  滑动不能越界
 
 
-###测量宽高
+#### 测量宽高
 不重写onMeasure的话，如果我们在xml的宽高写的是固定值如100dp，那么我们的宽高是100dp，因为测量模式是这个MeasureSpec.EXACTLY
 但是如果宽高写的wrap_content，那么ScrollerLayout会占满父控件。
 因为wrap_content对应的测量模式和match_parent一样都是MeasureSpec.AT_MOST。这个MeasureSpec.AT_MOST是在onMeasure中确定最终的宽高要用到的
@@ -238,4 +238,6 @@ Scroller 的流程
                     }
                 }      
                   
-这样就搞出了个简单版的ScrollView了 
+这样就搞出了个简单版的ScrollView了。
+最后，完整的代码[点击这里](https://github.com/jeffreyhappy/demoCollection/blob/master/ScrollerLayout/app/src/main/java/com/fei/scrollerlayout/ScrollerLayout.java)
+最后的最后，其实有啥不明白的照着ScrollView抄就可以了。
