@@ -1,4 +1,4 @@
-![截图](https://github.com/jeffreyhappy/demoCollection/blob/master/NestScrollDemo/ScreenRecord.gif)  
+![截图](https://github.com/jeffreyhappy/demoCollection/blob/master/wave/wave_20180330164813.gif)  
 
 ## 学习自定义波浪图
 项目中使用到了波浪图，学习一下，找到了文章 https://blog.csdn.net/mffandxx/article/details/70891481
