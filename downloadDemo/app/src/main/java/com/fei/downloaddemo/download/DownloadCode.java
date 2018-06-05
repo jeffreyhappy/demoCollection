@@ -15,8 +15,8 @@ public class DownloadCode{
     }
 
 
-//    public interface DownloadAction{
-//        int START_
-//    }
+    public interface DownloadErrorCode{
+        int ERROR_CODE_HTTP_ERROR = 1;
+    }
 
 }

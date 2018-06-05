@@ -66,7 +66,7 @@ public class DownloadManager {
 
 
     private void doDownload(DownloadObj downloadObj){
-        DownloadWorker worker = new DownloadWorker(downloadObj);
+        DownloadWorker worker = new DownloadWorker(downloadObj,DownloadObserver.getInstance());
         mExeccutor.execute(worker);
     }
 

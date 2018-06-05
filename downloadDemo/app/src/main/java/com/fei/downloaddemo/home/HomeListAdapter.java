@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fei.downloaddemo.R;
+import com.fei.downloaddemo.download.DownloadCode;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,25 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeItemVH> {
         HomeListItem itemInfo = list.get(position);
         holder.tvName.setText(itemInfo.getName());
         holder.tvSize.setText(itemInfo.getSize());
+
+        String btnMsg = "下载";
+        switch (itemInfo.getStatus()){
+            case DownloadCode.DownloadStatus.NONE:
+                break;
+            case DownloadCode.DownloadStatus.PREPARE:
+                btnMsg = "准备中";
+                break;
+            case DownloadCode.DownloadStatus.DOWNLOAD:
+                btnMsg = itemInfo.getProgress() +"";
+                break;
+            case DownloadCode.DownloadStatus.FINISH:
+                btnMsg = "完成";
+                break;
+            case DownloadCode.DownloadStatus.ERROR:
+                btnMsg = "错误";
+                break;
+        }
+        holder.btn.setText(btnMsg);
     }
 
     @Override
@@ -46,5 +66,9 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeItemVH> {
 
     public HomeListItem getItem(int position){
         return list.get(position);
+    }
+
+    public ArrayList<HomeListItem> getList() {
+        return list;
     }
 }

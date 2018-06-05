@@ -10,6 +10,8 @@ public class HomeListItem {
     private String name;
     private String size;
     private String url;
+    private int    status;
+    private int    progress;
 
 
     public HomeListItem(String name, String size, String url) {
@@ -40,5 +42,22 @@ public class HomeListItem {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
     }
 }
