@@ -21,6 +21,10 @@
         <service
             android:name=".download.DownloadService"
             android:process=":DownloadService"/>
+        
+        <provider
+            android:authorities="com.fei.downloaddemo.provider"
+            android:name=".provider.DownloadContentProvider"/>
     </application>
 
 </manifest>

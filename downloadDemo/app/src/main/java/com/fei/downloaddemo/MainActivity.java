@@ -2,10 +2,15 @@ package com.fei.downloaddemo;
 
 import android.Manifest;
 import android.content.ComponentName;
+import android.content.ContentProvider;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionInfo;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -25,6 +30,7 @@ import com.fei.downloaddemo.home.HomeListAdapter;
 import com.fei.downloaddemo.home.HomeListClickListener;
 import com.fei.downloaddemo.home.HomeListItem;
 import com.fei.downloaddemo.home.HomeView;
+import com.fei.downloaddemo.provider.DownloadContentProvider;
 
 import java.util.ArrayList;
 
@@ -38,21 +44,35 @@ public class MainActivity extends AppCompatActivity  implements HomeView{
         @Override
         public void onDownloadPrepare(String key) throws RemoteException {
             onItemPrepare(key);
+            insertOneHistory(key, DownloadCode.DownloadStatus.PREPARE);
+            printAllRecord();
         }
 
         @Override
-        public void onDownloadRunning(String key, int progress) throws RemoteException {
+        public void onDownloadFileSize(String key ,int size) throws RemoteException {
+            Log.d(TAG,"onDownloadFileSize " + key + " " + size);
+            updateTotalSize(key,size);
+            printAllRecord();
+        }
+
+        @Override
+        public void onDownloadRunning(String key, int progress,boolean first) throws RemoteException {
             onItemProgress(key,progress);
+            if (first){
+                updateStatus(key, DownloadCode.DownloadStatus.DOWNLOAD);
+            }
         }
 
         @Override
         public void onDownloadDone(String key) throws RemoteException {
             onItemDone(key);
+            updateStatus(key, DownloadCode.DownloadStatus.FINISH);
         }
 
         @Override
         public void onDownloadError(String key, int errorCode) throws RemoteException {
 
+            updateStatus(key, DownloadCode.DownloadStatus.ERROR);
         }
 
         @Override
@@ -91,6 +111,75 @@ public class MainActivity extends AppCompatActivity  implements HomeView{
         }));
         mRv.setAdapter(mAdapter);
         enSurePermission();
+
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                testContentProvider();
+//            }
+//        }).start();
+    }
+
+    private void testContentProvider(){
+
+        ContentResolver resolver = getContentResolver();
+        ContentValues cv = new ContentValues();
+        cv.put("url","myurl");
+        cv.put("total_size",2000);
+        cv.put("status",200);
+        resolver.insert(DownloadContentProvider.URI_DOWNLOAD,cv);
+
+
+        Cursor cursor =  resolver.query(DownloadContentProvider.URI_DOWNLOAD,null,null,null,null);
+        while (cursor.moveToNext()){
+            int count = cursor.getColumnCount();
+            String url = cursor.getString(cursor.getColumnIndex("url"));
+            int totalSize  = cursor.getInt(cursor.getColumnIndex("total_size"));
+            int status  = cursor.getInt(cursor.getColumnIndex("status"));
+
+            Log.d(TAG,String.format("url = %s  totalSize= %d status = %d \n",url,totalSize,status));
+        }
+        cursor.close();
+    }
+
+    private void insertOneHistory(String key,int status){
+        ContentResolver resolver = getContentResolver();
+        ContentValues cv = new ContentValues();
+        cv.put("url",key);
+        cv.put("status",status);
+        resolver.insert(DownloadContentProvider.URI_DOWNLOAD,cv);
+    }
+
+    private void updateTotalSize(String key,int totalSize){
+        ContentResolver resolver = getContentResolver();
+        ContentValues cv = new ContentValues();
+        cv.put("url",key);
+        cv.put("total_size",totalSize);
+        int rows = resolver.update(DownloadContentProvider.URI_DOWNLOAD,cv,null,null);
+    }
+
+    private void updateStatus(String key,int status){
+        ContentResolver resolver = getContentResolver();
+        ContentValues cv = new ContentValues();
+        cv.put("url",key);
+        cv.put("status",status);
+        int rows = resolver.update(DownloadContentProvider.URI_DOWNLOAD,cv,null,null);
+    }
+
+
+    private void printAllRecord(){
+        ContentResolver resolver = getContentResolver();
+        Cursor cursor =  resolver.query(DownloadContentProvider.URI_DOWNLOAD,null,null,null,null);
+        while (cursor.moveToNext()){
+            int count = cursor.getColumnCount();
+            String url = cursor.getString(cursor.getColumnIndex("url"));
+            int totalSize  = cursor.getInt(cursor.getColumnIndex("total_size"));
+            int status  = cursor.getInt(cursor.getColumnIndex("status"));
+
+            Log.d(TAG,String.format("url = %s  totalSize= %d status = %d \n",url,totalSize,status));
+        }
+        cursor.close();
     }
 
     private void enSurePermission(){
@@ -127,7 +216,7 @@ public class MainActivity extends AppCompatActivity  implements HomeView{
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-                if (mService != null){
+                if (mService != null ){
                     try {
                         mService.removeListener(mCallback);
                     } catch (RemoteException e) {

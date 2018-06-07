@@ -68,7 +68,7 @@ public class DownloadWorker implements Runnable {
             }
             int thisFileSize = getFileSize(contentRange);
             Log.d(TAG,"thisFileSize = " + thisFileSize );
-
+            this.mListener.onDownloadFileSize(mInfo.getUrl(),thisFileSize);
             //基准是自己 output 就自己输出到文件
             //基准是自己 input  就文件读出来到自己
 
@@ -81,10 +81,12 @@ public class DownloadWorker implements Runnable {
             byte[] readBytes = new byte[1024];
             int len = 0;
             int totalSize = (int) fileStartRange;
+            boolean first = true;
             while ((len = httpInputStream.read(readBytes)) != -1  ){
                 outputStream.write(readBytes,0,len);
                 totalSize+=len;
-                mListener.onDownloadRunning(mInfo.getUrl(),calcProgress(totalSize,thisFileSize));
+                mListener.onDownloadRunning(mInfo.getUrl(),calcProgress(totalSize,thisFileSize),first);
+                first = false;
             }
             mListener.onDownloadDone(mInfo.getUrl());
             Log.d(TAG,"total size = " + totalSize);
