@@ -29,6 +29,7 @@ import com.fei.downloaddemo.download.DownloadService;
 import com.fei.downloaddemo.home.HomeListAdapter;
 import com.fei.downloaddemo.home.HomeListClickListener;
 import com.fei.downloaddemo.home.HomeListItem;
+import com.fei.downloaddemo.home.HomePresenter;
 import com.fei.downloaddemo.home.HomeView;
 import com.fei.downloaddemo.provider.DownloadContentProvider;
 
@@ -39,53 +40,16 @@ public class MainActivity extends AppCompatActivity  implements HomeView{
     RecyclerView mRv;
     HomeListAdapter mAdapter;
     IDownloadService mService;
+
     private Handler handler = new Handler();
-    private IDownloadCallback mCallback = new IDownloadCallback.Stub() {
-        @Override
-        public void onDownloadPrepare(String key) throws RemoteException {
-            onItemPrepare(key);
-            insertOneHistory(key, DownloadCode.DownloadStatus.PREPARE);
-            printAllRecord();
-        }
-
-        @Override
-        public void onDownloadFileSize(String key ,int size) throws RemoteException {
-            Log.d(TAG,"onDownloadFileSize " + key + " " + size);
-            updateTotalSize(key,size);
-            printAllRecord();
-        }
-
-        @Override
-        public void onDownloadRunning(String key, int progress,boolean first) throws RemoteException {
-            onItemProgress(key,progress);
-            if (first){
-                updateStatus(key, DownloadCode.DownloadStatus.DOWNLOAD);
-            }
-        }
-
-        @Override
-        public void onDownloadDone(String key) throws RemoteException {
-            onItemDone(key);
-            updateStatus(key, DownloadCode.DownloadStatus.FINISH);
-        }
-
-        @Override
-        public void onDownloadError(String key, int errorCode) throws RemoteException {
-
-            updateStatus(key, DownloadCode.DownloadStatus.ERROR);
-        }
-
-        @Override
-        public String getKey() throws RemoteException {
-            return null;
-        }
-    };
+    private HomePresenter mPresenter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mPresenter = new HomePresenter(this,this);
         mRv = findViewById(R.id.rv);
         mAdapter = new HomeListAdapter(DataCenter.getHomeListItems());
         mRv.setLayoutManager(new LinearLayoutManager(this));
@@ -113,6 +77,7 @@ public class MainActivity extends AppCompatActivity  implements HomeView{
         enSurePermission();
 
 
+
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -121,66 +86,7 @@ public class MainActivity extends AppCompatActivity  implements HomeView{
 //        }).start();
     }
 
-    private void testContentProvider(){
 
-        ContentResolver resolver = getContentResolver();
-        ContentValues cv = new ContentValues();
-        cv.put("url","myurl");
-        cv.put("total_size",2000);
-        cv.put("status",200);
-        resolver.insert(DownloadContentProvider.URI_DOWNLOAD,cv);
-
-
-        Cursor cursor =  resolver.query(DownloadContentProvider.URI_DOWNLOAD,null,null,null,null);
-        while (cursor.moveToNext()){
-            int count = cursor.getColumnCount();
-            String url = cursor.getString(cursor.getColumnIndex("url"));
-            int totalSize  = cursor.getInt(cursor.getColumnIndex("total_size"));
-            int status  = cursor.getInt(cursor.getColumnIndex("status"));
-
-            Log.d(TAG,String.format("url = %s  totalSize= %d status = %d \n",url,totalSize,status));
-        }
-        cursor.close();
-    }
-
-    private void insertOneHistory(String key,int status){
-        ContentResolver resolver = getContentResolver();
-        ContentValues cv = new ContentValues();
-        cv.put("url",key);
-        cv.put("status",status);
-        resolver.insert(DownloadContentProvider.URI_DOWNLOAD,cv);
-    }
-
-    private void updateTotalSize(String key,int totalSize){
-        ContentResolver resolver = getContentResolver();
-        ContentValues cv = new ContentValues();
-        cv.put("url",key);
-        cv.put("total_size",totalSize);
-        int rows = resolver.update(DownloadContentProvider.URI_DOWNLOAD,cv,null,null);
-    }
-
-    private void updateStatus(String key,int status){
-        ContentResolver resolver = getContentResolver();
-        ContentValues cv = new ContentValues();
-        cv.put("url",key);
-        cv.put("status",status);
-        int rows = resolver.update(DownloadContentProvider.URI_DOWNLOAD,cv,null,null);
-    }
-
-
-    private void printAllRecord(){
-        ContentResolver resolver = getContentResolver();
-        Cursor cursor =  resolver.query(DownloadContentProvider.URI_DOWNLOAD,null,null,null,null);
-        while (cursor.moveToNext()){
-            int count = cursor.getColumnCount();
-            String url = cursor.getString(cursor.getColumnIndex("url"));
-            int totalSize  = cursor.getInt(cursor.getColumnIndex("total_size"));
-            int status  = cursor.getInt(cursor.getColumnIndex("status"));
-
-            Log.d(TAG,String.format("url = %s  totalSize= %d status = %d \n",url,totalSize,status));
-        }
-        cursor.close();
-    }
 
     private void enSurePermission(){
         int result = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -208,7 +114,7 @@ public class MainActivity extends AppCompatActivity  implements HomeView{
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mService = IDownloadService.Stub.asInterface(service);
                 try {
-                    mService.addListener(mCallback);
+                    mService.addListener(mPresenter.getCallback());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -218,7 +124,7 @@ public class MainActivity extends AppCompatActivity  implements HomeView{
             public void onServiceDisconnected(ComponentName name) {
                 if (mService != null ){
                     try {
-                        mService.removeListener(mCallback);
+                        mService.removeListener(mPresenter.getCallback());
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
