@@ -53,6 +53,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/fac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="FAC"
+        app:layout_constraintStart_toEndOf="@+id/btn_request"
+        app:layout_constraintTop_toBottomOf="@+id/btn_read" />
+
+    <Button
+        android:id="@+id/faw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:text="FAW"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="104dp" />
+
+    <Button
+        android:id="@+id/far"
+        android:layout_width="wrap_content"
+        android:layout_height="51dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="FAR"
+        app:layout_constraintStart_toEndOf="@+id/faw"
+        app:layout_constraintTop_toBottomOf="@+id/btn_write_from_c" />
+
     <TextView
         android:id="@+id/sample_text"
         android:layout_width="wrap_content"

@@ -1,6 +1,7 @@
 #include <jni.h>
 #include <string>
 #include "hello.h"
+#include "FileAction.h"
 
 
 
@@ -117,4 +118,40 @@ Java_com_happy_fei_helloworldjni_MainActivity_writeFile(JNIEnv *env, jobject ins
 
 
     return result;
+}
+
+
+extern "C"
+JNIEXPORT jboolean JNICALL
+Java_com_happy_fei_helloworldjni_MainActivity_createByFileAction(JNIEnv *env, jobject instance,
+                                                               jstring fullPath_) {
+    const char *fullPath = env->GetStringUTFChars(fullPath_, 0);
+    FileAction fileAction(fullPath);
+    bool  bResult = fileAction.create();
+    return bResult;
+//    env->ReleaseStringUTFChars(fullPath_, fullPath);
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_happy_fei_helloworldjni_MainActivity_readByFileAction(JNIEnv *env, jobject instance,
+                                                               jstring fullPath_) {
+    const char *fullPath = env->GetStringUTFChars(fullPath_, 0);
+
+    FileAction fileAction(fullPath);
+    std::string result = fileAction.read();
+
+    return env->NewStringUTF(result.c_str());
+}
+
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_happy_fei_helloworldjni_MainActivity_writeByFileAction(JNIEnv *env, jobject instance,
+                                                                jstring fullPath_, jstring info_) {
+    const char *fullPath = env->GetStringUTFChars(fullPath_, 0);
+    const char *info = env->GetStringUTFChars(info_, 0);
+
+    FileAction fileAction(fullPath);
+    fileAction.write(info);
 }

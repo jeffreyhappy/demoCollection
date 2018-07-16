@@ -115,6 +115,30 @@ public class MainActivity extends AppCompatActivity {
                 performRequest();
             }
         });
+
+
+//        findViewById(R.id.fac).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                File file = new File(Environment.getExternalStorageDirectory(),"fileAction.txt");
+//                createByFileAction(file.toString());
+//            }
+//        });
+        findViewById(R.id.faw).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File file = new File(Environment.getExternalStorageDirectory(),"fileAction.txt");
+                writeByFileAction(file.toString(),"write action " + System.currentTimeMillis());
+            }
+        });
+        findViewById(R.id.far).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File file = new File(Environment.getExternalStorageDirectory(),"fileAction.txt");
+                String content = readByFileAction(file.toString());
+                Log.d(TAG,"readByFileAction " + content);
+            }
+        });
         printLog();
 
 
@@ -249,6 +273,9 @@ public class MainActivity extends AppCompatActivity {
     public native String openFromJNI(String rootDir);
     public native String readFile(String fullPath);
     public native String writeFile(String fullPath,String info,String testPath);
+//    public native boolean createByFileAction(String fullPath);
+    public native String readByFileAction(String fullPath);
+    public native void writeByFileAction(String fullPath,String info);
 
 
     private void createFile(File rootDir,String more){
