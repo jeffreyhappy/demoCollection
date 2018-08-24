@@ -4,5 +4,7 @@
         <attr name="posIndicatorColor" format="color" />
         <attr name="posIndicatorHeight" format="dimension" />
         <attr name="posIndicatorShow" format="boolean" />
+        <attr name="posIndicatorWidth" format="dimension" />
+        <attr name="average" format="boolean" />
     </declare-styleable>
 </resources>
