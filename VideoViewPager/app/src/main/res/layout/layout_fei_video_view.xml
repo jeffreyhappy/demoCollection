@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <www.lixiangfei.top.videoviewpager.media.IjkVideoView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <ImageView
+        android:id="@+id/iv_preview"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <ProgressBar
+        android:id="@+id/loading"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        style="?android:progressBarStyleInverse"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_play"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:src="@drawable/ic_video_play"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+    <!--<com.jeffrey.feiplayer.media.VideoSystemOverlay-->
+        <!--android:id="@+id/video_system_overlay"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:visibility="gone">-->
+
+    <!--</com.jeffrey.feiplayer.media.VideoSystemOverlay>-->
+
+    <!--<com.jeffrey.feiplayer.media.VideoProgressOverlay-->
+        <!--android:id="@+id/video_progress_overlay"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:visibility="gone">-->
+
+    <!--</com.jeffrey.feiplayer.media.VideoProgressOverlay>-->
+</RelativeLayout>
