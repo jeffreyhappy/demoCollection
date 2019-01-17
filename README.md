@@ -7,3 +7,4 @@
 * NestScrollDemo - 	NestedScrollView与RecyclerView的嵌套使用
 * Wave - 	自定义波浪图
 * ScrollerLayout - 	实现一个简单版的ScrollView
+* AudioRecordTest - 学习录制和播放音频

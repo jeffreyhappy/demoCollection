@@ -1,11 +1,8 @@
-## 几乎每个APP都需要的TAB切换控件
+## 学习音频录制和播放
+想学音视频来着,咋一看难的一比,先找音频练练手
 
-#### 回顾下自定义ViewGroup和View
-
-根布局是个FrameLayout,包含了一个ScrollView和一个自定义view
-
-ScrollView 用来显示对应的标题
-自定义View 用来标示标题的下划指示线
-
-
-![截图](https://github.com/jeffreyhappy/demoCollection/blob/master/TabIndicator/screenRecord.gif)
+#### todo
+1. java录制音频 done
+1. java播放音频 done
+1. c++录制音频
+1. c++播放音频
