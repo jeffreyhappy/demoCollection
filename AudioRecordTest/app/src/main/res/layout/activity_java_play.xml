@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <LinearLayout
+        android:id="@+id/ll_selected"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <TextView
+            android:text="已选择:"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_selected"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        app:layout_constraintTop_toBottomOf="@id/ll_selected"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="200dp"
+        android:layout_height="0dp">
+
+    </android.support.v7.widget.RecyclerView>
+    <Button
+        app:layout_constraintTop_toBottomOf="@id/ll_selected"
+        android:id="@+id/btn_create_track"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/rv"
+        android:text="create track"/>
+    <Button
+        android:id="@+id/btn_start_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="start play"
+        app:layout_constraintLeft_toRightOf="@+id/rv"
+        app:layout_constraintTop_toBottomOf="@id/btn_create_track" />
+
+    <Button
+        android:id="@+id/btn_stop_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/rv"
+        android:text="stop play"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_play"/>
+
+    <Button
+        android:id="@+id/btn_pause_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pause play"
+        app:layout_constraintLeft_toRightOf="@+id/rv"
+        app:layout_constraintTop_toBottomOf="@id/btn_stop_play" />
+
+    <Button
+        android:id="@+id/btn_resume_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="resume play"
+        app:layout_constraintLeft_toRightOf="@+id/rv"
+        app:layout_constraintTop_toBottomOf="@id/btn_pause_play" />
+
+</android.support.constraint.ConstraintLayout>
