@@ -8,18 +8,14 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/java_record"
-        android:text="java record"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/java_play"
-        android:text="java play"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button
         android:id="@+id/native_play"
         android:text="native play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/native_test_open_file"
+        android:text="test_open_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

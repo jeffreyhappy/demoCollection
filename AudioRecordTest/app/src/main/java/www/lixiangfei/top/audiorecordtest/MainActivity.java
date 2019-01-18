@@ -7,10 +7,7 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    // Used to load the 'native-lib' library on application startup.
-    static {
-        System.loadLibrary("native-lib");
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,13 +15,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         findViewById(R.id.java_play).setOnClickListener(this);
         findViewById(R.id.java_record).setOnClickListener(this);
+        findViewById(R.id.native_play).setOnClickListener(this);
     }
 
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    public native String stringFromJNI();
 
     @Override
     public void onClick(View v) {
@@ -34,6 +27,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.java_record:
                 startActivity(new Intent(MainActivity.this,JavaRecordActivity.class));
+                break;
+            case R.id.native_play:
+                startActivity(new Intent(MainActivity.this,NativeAudioPlayActivity.class));
                 break;
         }
     }

@@ -64,6 +64,9 @@ public class JavaPlayActivity extends Activity implements View.OnClickListener{
                 .subscribe(new Consumer<List<RecordHistory>>() {
                     @Override
                     public void accept(List<RecordHistory> recordHistories) throws Exception {
+                        if (recordHistories != null && recordHistories.size() > 0){
+                            Log.d("JavaPlayActivity","path = " + recordHistories.get(0).path);
+                        }
                         mAdapter.setNewData(recordHistories);
                     }
                 });

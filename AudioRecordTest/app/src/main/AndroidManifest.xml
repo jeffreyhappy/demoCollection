@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- MODIFY_AUDIO_SETTINGS is needed to use audio effects such as environmental reverb -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -26,6 +29,11 @@
 
 
         <activity android:name=".JavaPlayActivity">
+
+        </activity>
+
+
+        <activity android:name=".NativeAudioPlayActivity">
 
         </activity>
     </application>
