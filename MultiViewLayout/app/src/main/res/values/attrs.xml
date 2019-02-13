@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MultiViewLayout">
+        <attr name="rowDividerHeight" format="dimension|reference" />
+        <attr name="rowDividerColor" format="color|reference" />
+        <attr name="columnDividerHeight" format="dimension|reference" />
+        <attr name="columnDividerColor" format="color|reference" />
+    </declare-styleable>
+</resources>
